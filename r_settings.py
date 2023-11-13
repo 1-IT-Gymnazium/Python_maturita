@@ -13,8 +13,8 @@ EDITOR_DATA = {
         "graphics": None},
 
     3: {"style": "water", "type": "tile", "menu": "terrain",
-        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water.png",
-        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water.png",
+        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_bottom.png",
+        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_bottom.png",
         "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_animation"},
 
     4: {"style": "coin", "type": "tile", "menu": "coin",
