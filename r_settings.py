@@ -1,6 +1,6 @@
 TILE_SIZE = 64
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = 1300
+WINDOW_HEIGHT = 800
 ANIMATION_SPEED = 8
 
 EDITOR_DATA = {
@@ -13,33 +13,41 @@ EDITOR_DATA = {
         "graphics": None},
 
     3: {"style": "water", "type": "tile", "menu": "terrain",
-        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_bottom.png",
-        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_bottom.png",
-        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_animation"},
+        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\water_bottom.png",
+        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\water_bottom.png",
+        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\animations"},
 
     4: {"style": "coin", "type": "tile", "menu": "coin",
-        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SILVER_COIN.png",
-        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SILVER_COIN.png",
-        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SILVER_COIN.png"},
+        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\silver_coin\SILVER_COIN.png",
+        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\silver_coin\SILVER_COIN.png",
+        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\silver_coin\animations"},
     5: {"style": "coin", "type": "tile", "menu": "coin",
-        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\GOLD_COIN.png",
-        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\GOLD_COIN.png",
-        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\GOLD_COIN.png"},
+        "menu_surf": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\gold_coin\GOLD_COIN.png",
+        "preview": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\gold_coin\GOLD_COIN.png",
+        "graphics": r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\gold_coin\animations"},
 
     7: {'style': 'enemy', 'type': 'tile', 'menu': 'enemy',
-        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SPIKE_BLOCK.png",
-        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SPIKE_BLOCK.png",
-        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\SPIKE_BLOCK.png"},
+        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\spikes\SPIKE_BLOCK.png",
+        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\spikes\SPIKE_BLOCK.png",
+        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\spikes"},
+    8: {'style': 'enemy', 'type': 'tile', 'menu': 'enemy',
+        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_left\CANON_LEFT.png",
+        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_left\CANON_LEFT.png",
+        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_left"},
+    9: {'style': 'enemy', 'type': 'tile', 'menu': 'enemy',
+        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_right\CANON_RIGHT.png",
+        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_right\CANON_RIGHT.png",
+        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\canon_right"},
 
-    8: {'style': 'palm_fg', 'type': 'object', 'menu': 'palm fg',
-        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\PALM.png",
-        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\PALM.png",
-        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\PALM.png"},
+    10: {'style': 'palm_fg', 'type': 'object', 'menu': 'palm fg',
+        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_fg\large_1.png",
+        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_fg\large_1.png",
+        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_fg\animations"},
 
-    9: {'style': 'palm_bg', 'type': 'object', 'menu': 'palm bg',
-        'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\BG_PALM.png",
-        'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\BG_PALM.png",
-        'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\BG_PALM.png"},
+    11: {'style': 'palm_bg', 'type': 'object', 'menu': 'palm bg',
+         'menu_surf': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_bg\0.png",
+         'preview': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_bg\0.png",
+         'graphics': r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\large_bg\animations"},
 
 }
 

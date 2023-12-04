@@ -1,64 +1,59 @@
-import pygame, sys
+import pygame
+import sys
 from pygame.math import Vector2 as vector
 from r_settings import *
 from pygame.mouse import get_pressed as mouse_buttons
 from pygame.mouse import get_pos as mouse_position
 from menu import Menu
 from pygame.image import load
+from support import import_folder
 
 
 class Editor:
     def __init__(self, land_tiles):
-
-        # main setup
+        # Main setup
         self.display_surface = pygame.display.get_surface()
         self.canvas_data = {}
 
-        # imports
+        # Imports
         self.land_tiles = land_tiles
-        self.import_w()
+        self.import_assets()
 
-        # navigation
+        # Navigation
         self.origin = vector()
         self.pan_active = False
         self.pan_offset = vector()
 
-        # support lines
+        # Support lines
         self.support_line_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.support_line_surf.set_colorkey("green")
         self.support_line_surf.set_alpha(30)
 
-        # selection
+        # Selection
         self.selection_index = 2
         self.last_selected_cell = None
 
-        # menu
+        # Menu
         self.menu = Menu()
 
     def get_current_cell(self):
         distance_to_origin = vector(mouse_position()) - self.origin
-
-        if distance_to_origin.x > 0:
-            col = int(distance_to_origin.x / TILE_SIZE)
-        else:
-            col = int(distance_to_origin.x / TILE_SIZE) - 1
-        if distance_to_origin.y > 0:
-            row = int(distance_to_origin.y / TILE_SIZE)
-        else:
-            row = int(distance_to_origin.y / TILE_SIZE) - 1
-
+        col = int(distance_to_origin.x / TILE_SIZE) if distance_to_origin.x > 0 else int(
+            distance_to_origin.x / TILE_SIZE) - 1
+        row = int(distance_to_origin.y / TILE_SIZE) if distance_to_origin.y > 0 else int(
+            distance_to_origin.y / TILE_SIZE) - 1
         return col, row
 
     def check_neighbors(self, cell_pos):
-
-        # create a local cluster
+        # Create a local cluster
         cluster_size = 3
         local_cluster = [
             (cell_pos[0] + col - int(cluster_size / 2), cell_pos[1] + row - int(cluster_size / 2))
             for col in range(cluster_size)
-            for row in range(cluster_size)]
+            for row in range(cluster_size)
+        ]
 
-        # check neighbors
+        # Check neighbors
         for cell in local_cluster:
             if cell in self.canvas_data:
                 self.canvas_data[cell].terrain_neighbors = []
@@ -66,20 +61,37 @@ class Editor:
                 for name, side in NEIGHBOR_DIRECTIONS.items():
                     neighbor_cell = (cell[0] + side[0], cell[1] + side[1])
 
-                    # water top neighbor
-                    if neighbor_cell in self.canvas_data:
-                        if self.canvas_data[neighbor_cell].has_water and self.canvas_data[cell].has_water and name == "A":
-                            self.canvas_data[cell].water_on_top = True
+                    # Water top neighbor
+                    if neighbor_cell in self.canvas_data and \
+                            self.canvas_data[neighbor_cell].has_water and \
+                            self.canvas_data[cell].has_water and name == "A":
+                        self.canvas_data[cell].water_on_top = True
 
-                    # terrain neighbors
-                    if neighbor_cell in self.canvas_data:
-                        if self.canvas_data[neighbor_cell].has_terrain:
-                            self.canvas_data[cell].terrain_neighbors.append(name)
+                    # Terrain neighbors
+                    if neighbor_cell in self.canvas_data and self.canvas_data[neighbor_cell].has_terrain:
+                        self.canvas_data[cell].terrain_neighbors.append(name)
 
-    def import_w(self):
-        self.water_bottom = load(r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water_bottom.png")
+    def import_assets(self):
+        self.water_bottom = load(
+            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\water_bottom.png")
 
-    # input
+        # Animations
+        self.animations = {3: {"frame index": 0, "frames": ["surfaces"], "length": 3}}
+        for key, value in EDITOR_DATA.items():
+            if value["graphics"]:
+                graphics = import_folder(value["graphics"])
+                self.animations[key] = {
+                    "frame index": 0,
+                    "frames": graphics,
+                    "length": len(graphics)
+                }
+
+    def animation_update(self, dt):
+        for value in self.animations.values():
+            value["frame index"] += ANIMATION_SPEED * dt
+            if value["frame index"] >= value["length"]:
+                value["frame index"] = 0
+
     def event_loop(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -90,9 +102,17 @@ class Editor:
             self.menu_click(event)
             self.canvas_add()
 
-    def pan_input(self, event):
+            # Check for right mouse button click to delete tile
+            if event.type == pygame.MOUSEBUTTONDOWN and mouse_buttons()[2]:
+                self.delete_tile()
 
-        # middle mouse button pressed / released
+            # Check for F key press to delete tile
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_f:
+                    self.delete_tile()
+
+    def pan_input(self, event):
+        # Middle mouse button pressed / released
         if event.type == pygame.MOUSEBUTTONDOWN and mouse_buttons()[1]:
             self.pan_active = True
             self.pan_offset = vector(mouse_position()) - self.origin
@@ -100,14 +120,14 @@ class Editor:
         if not mouse_buttons()[1]:
             self.pan_active = False
 
-        # mouse wheel
+        # Mouse wheel
         if event.type == pygame.MOUSEWHEEL:
             if pygame.key.get_pressed()[pygame.K_LCTRL]:
                 self.origin.y -= event.y * 50
             else:
                 self.origin.x -= event.y * 50
 
-        # panning update
+        # Panning update
         if self.pan_active:
             self.origin = vector(mouse_position()) - self.pan_offset
 
@@ -119,6 +139,12 @@ class Editor:
                 self.selection_index -= 1
         self.selection_index = max(2, min(self.selection_index, 18))
 
+    def delete_tile(self):
+        current_cell = self.get_current_cell()
+
+        if current_cell in self.canvas_data:
+            del self.canvas_data[current_cell]
+
     def menu_click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):
             self.selection_index = self.menu.click(mouse_position(), mouse_buttons())
@@ -128,7 +154,6 @@ class Editor:
             current_cell = self.get_current_cell()
 
             if current_cell != self.last_selected_cell:
-
                 if current_cell in self.canvas_data:
                     self.canvas_data[current_cell].add_id(self.selection_index)
                 else:
@@ -143,7 +168,8 @@ class Editor:
 
         offset_offset = vector(
             x=self.origin.x - int(self.origin.x / TILE_SIZE) * TILE_SIZE,
-            y=self.origin.y - int(self.origin.y / TILE_SIZE) * TILE_SIZE)
+            y=self.origin.y - int(self.origin.y / TILE_SIZE) * TILE_SIZE
+        )
 
         self.support_line_surf.fill("green")
 
@@ -161,39 +187,44 @@ class Editor:
         for cell_pos, tile in self.canvas_data.items():
             pos = self.origin + vector(cell_pos) * TILE_SIZE
 
-            # water
-
+            # Water
             if tile.has_water:
                 if tile.water_on_top:
                     self.display_surface.blit(self.water_bottom, pos)
                 else:
-                    test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
-                    test_surf.fill("blue")
-                    self.display_surface.blit(test_surf, pos)
+                    frames = self.animations[3]["frames"]
+                    index = int(self.animations[3]["frame index"])
+                    surf = frames[index]
+                    self.display_surface.blit(surf, pos)
 
             if tile.has_terrain:
                 terrain_string = "".join(tile.terrain_neighbors)
                 terrain_style = terrain_string if terrain_string in self.land_tiles else "X"
                 self.display_surface.blit(self.land_tiles[terrain_style], pos)
 
-            # coins
-
+            # Coins
             if tile.coin:
-                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
-                test_surf.fill("green")
-                self.display_surface.blit(test_surf, pos)
+                frames = self.animations[tile.coin]["frames"]
+                index = int(self.animations[tile.coin]["frame index"])
+                surf = frames[index]
+                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
+                self.display_surface.blit(surf, rect)
 
-            # enemies
-
+            # Enemies
             if tile.enemy:
-                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
-                test_surf.fill("red")
-                self.display_surface.blit(test_surf, pos)
+                frames = self.animations[tile.enemy]["frames"]
+                index = int(self.animations[tile.enemy]["frame index"])
+                surf = frames[index]
+                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
+                self.display_surface.blit(surf, rect)
 
     def run(self, dt):
         self.event_loop()
 
-        # drawing
+        # Updating
+        self.animation_update(dt)
+
+        # Drawing
         self.display_surface.fill("grey")
         self.draw_level()
         self.draw_tile_lines()
@@ -203,22 +234,21 @@ class Editor:
 
 class CanvasTile:
     def __init__(self, tile_id):
-
-        # terrain
+        # Terrain
         self.has_terrain = False
-        self.terrain_neghbors = []
+        self.terrain_neighbors = []
 
-        # water
+        # Water
         self.has_water = False
         self.water_on_top = False
 
-        # coin
+        # Coin
         self.coin = None
 
-        # enemy
+        # Enemy
         self.enemy = None
 
-        # objects
+        # Objects
         self.objects = []
 
         self.add_id(tile_id)

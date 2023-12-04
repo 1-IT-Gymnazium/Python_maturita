@@ -1,8 +1,8 @@
 import pygame
-from r_settings import *
+from r_settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from editor import Editor
 from pygame.image import load
-from support import *
+from support import import_folder_dict
 
 
 class Main:
@@ -10,19 +10,20 @@ class Main:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
-        self.imports()
+        self.import_assets()
 
         self.editor = Editor(self.land_tiles)
 
-        # cursor
-        surf = load(
+        # Cursor
+        cursor_surf = load(
             r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\mouse_cursor.png").convert_alpha()
-        cursor = pygame.cursors.Cursor((0, 0), surf)
+        cursor = pygame.cursors.Cursor((0, 0), cursor_surf)
         pygame.mouse.set_cursor(cursor)
 
-    def imports(self):
-        self.land_tiles = import_folder_dict(r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\land")
-
+    def import_assets(self):
+        self.land_tiles = import_folder_dict(
+            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\land"
+        )
 
     def run(self):
         while True:
