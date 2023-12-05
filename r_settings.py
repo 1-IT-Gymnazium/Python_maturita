@@ -1,7 +1,8 @@
 TILE_SIZE = 64
 WINDOW_WIDTH = 1300
 WINDOW_HEIGHT = 800
-ANIMATION_SPEED = 8
+ANIMATION_SPEED = 5
+FPS = 60
 
 EDITOR_DATA = {
     0: {"style": "player", "type": "object", "menu": None, "menu_surf": None, "preview": None, "graphics": None},
