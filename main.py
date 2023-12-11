@@ -16,7 +16,7 @@ class Main:
 
         # Cursor
         cursor_surf = load(
-            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\mouse_cursor.png").convert_alpha()
+            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\mouse_cursor.png").convert_alpha() #TODO: predelat na relativni
         cursor = pygame.cursors.Cursor((0, 0), cursor_surf)
         pygame.mouse.set_cursor(cursor)
 

@@ -218,18 +218,18 @@ class Editor:
                 rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
                 self.display_surface.blit(surf, rect)
 
-    def run(self, dt):
-        self.event_loop()
+    def run(self, dt): # TODO: Dan skončil zde
+        self.event_loop() # reaguje na události
 
         # Updating
-        self.animation_update(dt)
+        self.animation_update(dt)  # voda a  mince se zde animují
 
         # Drawing
-        self.display_surface.fill("grey")
-        self.draw_level()
+        self.display_surface.fill("grey")  # kreslí pozadí
+        self.draw_level() # kreslí dlaždice levelu(mapy)
         self.draw_tile_lines()
-        pygame.draw.circle(self.display_surface, "red", self.origin, 10)
-        self.menu.display(self.selection_index)
+        pygame.draw.circle(self.display_surface, "red", self.origin, 10) # kreslí tečku na středu mapy
+        self.menu.display(self.selection_index) # kreslí menu
 
 
 class CanvasTile:
