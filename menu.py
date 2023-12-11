@@ -1,5 +1,5 @@
 import pygame
-from r_settings import *
+from settings import *
 from pygame.image import load
 
 class Menu:

@@ -1,5 +1,5 @@
 import pygame
-from r_settings import WINDOW_WIDTH, WINDOW_HEIGHT
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from editor import Editor
 from pygame.image import load
 from support import import_folder_dict

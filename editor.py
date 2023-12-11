@@ -1,7 +1,7 @@
 import pygame
 import sys
 from pygame.math import Vector2 as vector
-from r_settings import *
+from settings import *
 from pygame.mouse import get_pressed as mouse_buttons
 from pygame.mouse import get_pos as mouse_position
 from menu import Menu
