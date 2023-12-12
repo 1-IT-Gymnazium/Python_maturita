@@ -3,6 +3,7 @@ from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from editor import Editor
 from pygame.image import load
 from support import import_folder_dict
+from tiles import WaterTile, TerrainTile
 
 
 class Main:
@@ -11,8 +12,12 @@ class Main:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
         self.import_assets()
-
-        self.editor = Editor(self.land_tiles)
+        self.tiles = {
+            'water': WaterTile(),
+            'terrain': TerrainTile(),
+            # Další typy dlaždic...
+        }
+        self.editor = Editor(self.tiles)
 
         # Cursor
         cursor_surf = load(

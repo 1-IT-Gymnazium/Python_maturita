@@ -11,13 +11,13 @@ from support import import_folder
 
 class Editor:
     def __init__(self, land_tiles):
-        # Main setup
+        self.tiles = land_tiles
         self.display_surface = pygame.display.get_surface()
         self.canvas_data = {}
 
         # Imports
-        self.land_tiles = land_tiles
         self.import_assets()
+
 
         # Navigation
         self.origin = vector()
@@ -73,7 +73,7 @@ class Editor:
 
     def import_assets(self):
         self.water_bottom = load(
-            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\water_bottom.png")
+            r"tiles_png\water\water_bottom.png")
 
         # Animations
         self.animations = {3: {"frame index": 0, "frames": ["surfaces"], "length": 3}}
@@ -87,10 +87,8 @@ class Editor:
                 }
 
     def animation_update(self, dt):
-        for value in self.animations.values():
-            value["frame index"] += ANIMATION_SPEED * dt
-            if value["frame index"] >= value["length"]:
-                value["frame index"] = 0
+        for tile in self.tiles.values():
+            tile.animate(dt)
 
     def event_loop(self):
         for event in pygame.event.get():
@@ -186,37 +184,7 @@ class Editor:
     def draw_level(self):
         for cell_pos, tile in self.canvas_data.items():
             pos = self.origin + vector(cell_pos) * TILE_SIZE
-
-            # Water
-            if tile.has_water:
-                if tile.water_on_top:
-                    self.display_surface.blit(self.water_bottom, pos)
-                else:
-                    frames = self.animations[3]["frames"]
-                    index = int(self.animations[3]["frame index"])
-                    surf = frames[index]
-                    self.display_surface.blit(surf, pos)
-
-            if tile.has_terrain:
-                terrain_string = "".join(tile.terrain_neighbors)
-                terrain_style = terrain_string if terrain_string in self.land_tiles else "X"
-                self.display_surface.blit(self.land_tiles[terrain_style], pos)
-
-            # Coins
-            if tile.coin:
-                frames = self.animations[tile.coin]["frames"]
-                index = int(self.animations[tile.coin]["frame index"])
-                surf = frames[index]
-                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
-                self.display_surface.blit(surf, rect)
-
-            # Enemies
-            if tile.enemy:
-                frames = self.animations[tile.enemy]["frames"]
-                index = int(self.animations[tile.enemy]["frame index"])
-                surf = frames[index]
-                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
-                self.display_surface.blit(surf, rect)
+            tile.draw(self.display_surface, pos)
 
     def run(self, dt):  # TODO: Dan skončil zde
         self.event_loop()  # reaguje na události
