@@ -72,6 +72,7 @@ LEVEL_LAYERS = {
 }
 
 # colors
+CLOUDS_COLOR = "white"
 SKY_COLOR = '#ddc6a1'
 SEA_COLOR = '#92a9ce'
 HORIZON_COLOR = '#f5f1de'

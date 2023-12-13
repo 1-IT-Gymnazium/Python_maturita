@@ -183,6 +183,22 @@ class Editor:
 
         self.display_surface.blit(self.support_line_surf, (0, 0))
 
+    def draw_sky_background(self):
+        # Fill the entire screen with the sky color
+        self.display_surface.fill(pygame.Color(SKY_COLOR))
+
+        # Draw the horizon
+        horizon_rect = pygame.Rect(0, WINDOW_HEIGHT // 2, WINDOW_WIDTH, WINDOW_HEIGHT // 2)
+        pygame.draw.rect(self.display_surface, pygame.Color(HORIZON_COLOR), horizon_rect)
+
+        # Draw the sea
+        sea_rect = pygame.Rect(0, WINDOW_HEIGHT // 2, WINDOW_WIDTH, WINDOW_HEIGHT // 2)
+        pygame.draw.rect(self.display_surface, pygame.Color(SEA_COLOR), sea_rect)
+
+        # Draw a line to separate the sky and the sea
+        line_rect = pygame.Rect(0, WINDOW_HEIGHT // 2, WINDOW_WIDTH, 2)
+        pygame.draw.rect(self.display_surface, pygame.Color(LINE_COLOR), line_rect)
+
     def draw_level(self):
         for cell_pos, tile in self.canvas_data.items():
             pos = self.origin + vector(cell_pos) * TILE_SIZE
@@ -222,8 +238,7 @@ class Editor:
                 frames = self.animations[tile.palm_fg]["frames"]
                 index = int(self.animations[tile.palm_fg]["frame index"])
                 surf = frames[index]
-                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
-                self.display_surface.blit(surf, rect)
+                self.display_surface.blit(surf, pos)
 
             if tile.crate:
                 frames = self.animations[tile.crate]["frames"]
@@ -240,6 +255,7 @@ class Editor:
 
         # Drawing
         self.display_surface.fill("grey")
+        self.draw_sky_background()
         self.draw_level()
         self.draw_tile_lines()
         pygame.draw.circle(self.display_surface, "red", self.origin, 10)
