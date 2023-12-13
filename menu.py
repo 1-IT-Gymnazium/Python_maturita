@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from pygame.image import load
 
+
 class Menu:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
