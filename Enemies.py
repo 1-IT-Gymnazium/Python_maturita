@@ -1,5 +1,5 @@
 from pygame.image import load
-from r_settings import EDITOR_DATA
+from settings import EDITOR_DATA
 
 
 class Ball:

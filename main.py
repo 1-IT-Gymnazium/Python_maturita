@@ -1,5 +1,5 @@
 import pygame
-from r_settings import WINDOW_WIDTH, WINDOW_HEIGHT
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from editor import Editor
 from pygame.image import load
 from support import import_folder_dict
@@ -16,13 +16,13 @@ class Main:
 
         # Cursor
         cursor_surf = load(
-            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\mouse_cursor.png").convert_alpha()
+            r"tiles_png\mouse_cursor.png").convert_alpha()
         cursor = pygame.cursors.Cursor((0, 0), cursor_surf)
         pygame.mouse.set_cursor(cursor)
 
     def import_assets(self):
         self.land_tiles = import_folder_dict(
-            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\land"
+            r"tiles_png\land"
         )
 
     def run(self):

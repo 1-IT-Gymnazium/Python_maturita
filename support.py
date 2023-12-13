@@ -1,6 +1,6 @@
 import pygame
 from os import walk
-from r_settings import WINDOW_WIDTH, WINDOW_HEIGHT
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 
 
 def import_folder(path):

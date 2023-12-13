@@ -1,7 +1,7 @@
 import pygame
 import sys
 from pygame.math import Vector2 as vector
-from r_settings import *
+from settings import *
 from pygame.mouse import get_pressed as mouse_buttons
 from pygame.mouse import get_pos as mouse_position
 from menu import Menu
@@ -73,7 +73,7 @@ class Editor:
 
     def import_assets(self):
         self.water_bottom = load(
-            r"C:\Users\erikd\Pygame maturita\Python Maturitní projekt\tiles_png\water\water_bottom.png")
+            r"tiles_png\water\water_bottom.png")
 
         # Animations
         self.animations = {3: {"frame index": 0, "frames": ["surfaces"], "length": 3}}
