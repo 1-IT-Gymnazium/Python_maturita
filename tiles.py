@@ -12,6 +12,7 @@ class Tile:
         self.frame_index = 0
         self.frames = []  # Seznam snímků pro animaci
 
+
     def animate(self, dt):
         if self.frames:
             self.frame_index += ANIMATION_SPEED * dt

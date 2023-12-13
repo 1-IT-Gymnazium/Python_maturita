@@ -1,6 +1,8 @@
 import pygame
 import sys
 from pygame.math import Vector2 as vector
+
+import tiles
 from settings import *
 from pygame.mouse import get_pressed as mouse_buttons
 from pygame.mouse import get_pos as mouse_position
@@ -11,12 +13,13 @@ from support import import_folder
 
 class Editor:
     def __init__(self, land_tiles):
-        self.tiles = land_tiles
+        self.tiles = tiles
         self.display_surface = pygame.display.get_surface()
         self.canvas_data = {}
 
         # Imports
         self.import_assets()
+        self.land_tiles = land_tiles
 
 
         # Navigation
