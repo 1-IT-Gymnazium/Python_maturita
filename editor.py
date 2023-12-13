@@ -144,6 +144,7 @@ class Editor:
 
         if current_cell in self.canvas_data:
             del self.canvas_data[current_cell]
+        self.check_neighbors(current_cell)
 
     def menu_click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):
