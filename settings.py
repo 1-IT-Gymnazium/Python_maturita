@@ -40,15 +40,15 @@ EDITOR_DATA = {
         'preview': r"tiles_png\canon_right\CANON_RIGHT.png",
         'graphics': r"tiles_png\canon_right"},
 
-    10: {'style': 'palm_fg', 'type': 'object', 'menu': 'palm fg',
+    10: {'style': 'palm_fg', 'type': 'object', 'menu': 'objects',
          'menu_surf': r"tiles_png\large_fg\large_1.png",
          'preview': r"tiles_png\large_fg\large_1.png",
          'graphics': r"tiles_png\large_fg\animations"},
 
-    11: {'style': 'palm_bg', 'type': 'object', 'menu': 'palm bg',
-         'menu_surf': r"tiles_png\large_bg\0.png",
-         'preview': r"tiles_png\large_bg\0.png",
-         'graphics': r"tiles_png\large_bg\animations"},
+    11: {'style': 'crate', 'type': 'object', 'menu': 'objects',
+         'menu_surf': r"tiles_png\crate\crate.png",
+         'preview': r"tiles_png\crate\crate.png",
+         'graphics': r"tiles_png\crate"},
 
 }
 

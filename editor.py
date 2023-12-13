@@ -218,6 +218,20 @@ class Editor:
                 rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
                 self.display_surface.blit(surf, rect)
 
+            if tile.palm_fg:
+                frames = self.animations[tile.palm_fg]["frames"]
+                index = int(self.animations[tile.palm_fg]["frame index"])
+                surf = frames[index]
+                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
+                self.display_surface.blit(surf, rect)
+
+            if tile.crate:
+                frames = self.animations[tile.crate]["frames"]
+                index = int(self.animations[tile.crate]["frame index"])
+                surf = frames[index]
+                rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
+                self.display_surface.blit(surf, rect)
+
     def run(self, dt):
         self.event_loop()
 
@@ -248,6 +262,9 @@ class CanvasTile:
         # Enemy
         self.enemy = None
 
+        self.palm_fg = None
+
+        self.crate = None
         # Objects
         self.objects = []
 
@@ -263,3 +280,7 @@ class CanvasTile:
             self.coin = tile_id
         elif options[tile_id] == "enemy":
             self.enemy = tile_id
+        elif options[tile_id] == "palm_fg":
+            self.palm_fg = tile_id
+        elif options[tile_id] == "crate":
+            self.crate = tile_id

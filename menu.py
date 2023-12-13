@@ -37,7 +37,7 @@ class Menu:
         Button(self.tile_button_rect, self.buttons, self.menu_surfs["terrain"])
         Button(self.coin_button_rect, self.buttons, self.menu_surfs["coin"])
         Button(self.enemy_button_rect, self.buttons, self.menu_surfs["enemy"])
-        Button(self.palm_button_rect, self.buttons, self.menu_surfs["palm fg"], self.menu_surfs["palm bg"])
+        Button(self.palm_button_rect, self.buttons, self.menu_surfs["objects"], self.menu_surfs["objects"])
 
     def click(self, mouse_position, mouse_button):
         for sprite in self.buttons:
@@ -53,8 +53,7 @@ class Menu:
             "terrain": self.tile_button_rect,
             "coin": self.coin_button_rect,
             "enemy": self.enemy_button_rect,
-            "palm fg": self.palm_button_rect,
-            "palm bg": self.palm_button_rect
+            "objects": self.palm_button_rect,
         }
         button_rect = button_rect_mapping.get(EDITOR_DATA[index]["menu"])
         if button_rect:
