@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "level-1-real"
+version = "0.1.0"
+description = "This is a code of a 2D platform game."
+authors = ["Erik Diegel <1034@student.itgymnazium.cz>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pygame = "^2.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

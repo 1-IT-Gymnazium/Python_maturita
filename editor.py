@@ -36,6 +36,17 @@ class Editor:
         # Menu
         self.menu = Menu()
 
+        # Objects
+        self.canvas_objects = pygame.sprite.Group()
+
+        # Player
+        CanvasObject(
+            pos=(200, WINDOW_HEIGHT / 2),
+            frames=self.animations[0]["frames"],
+            tile_id=0,
+            origin=self.origin,
+            group=self.canvas_objects)
+
     def get_current_cell(self):
         distance_to_origin = vector(mouse_position()) - self.origin
         col = int(distance_to_origin.x / TILE_SIZE) if distance_to_origin.x > 0 else int(
@@ -130,6 +141,9 @@ class Editor:
         # Panning update
         if self.pan_active:
             self.origin = vector(mouse_position()) - self.pan_offset
+
+            for sprite in self.canvas_objects:
+                sprite.pan_pos(self.origin)
 
     def selection_hotkeys(self, event):
         if event.type == pygame.KEYDOWN:
@@ -247,12 +261,14 @@ class Editor:
                 surf = frames[index]
                 rect = surf.get_rect(center=(pos[0] + TILE_SIZE // 2, pos[1] + TILE_SIZE // 2))
                 self.display_surface.blit(surf, rect)
+        self.canvas_objects.draw(self.display_surface)
 
     def run(self, dt):
         self.event_loop()
 
         # Updating
         self.animation_update(dt)
+        self.canvas_objects.update(dt)
 
         # Drawing
         self.display_surface.fill("grey")
@@ -301,3 +317,29 @@ class CanvasTile:
             self.palm_fg = tile_id
         elif options[tile_id] == "crate":
             self.crate = tile_id
+
+
+class CanvasObject(pygame.sprite.Sprite):
+    def __init__(self, pos, frames, tile_id, origin, group):
+        super().__init__(group)
+
+        # Animation
+        self.frames = frames
+        self.frame_index = 0
+
+        self.image = self.frames[self.frame_index]
+        self.rect = self.image.get_rect(center=pos)
+
+        # Movement
+        self.distance_to_origin = vector(self.rect.topleft) - origin
+
+    def animate(self, dt):
+        self.frame_index += ANIMATION_SPEED * dt
+        self.frame_index = 0 if self.frame_index >= len(self.frames) else self.frame_index
+        self.image = self.frames[int(self.frame_index)]
+
+    def pan_pos(self, origin):
+        self.rect.topleft = origin + self.distance_to_origin
+
+    def update(self, dt):
+        self.animate(dt)
