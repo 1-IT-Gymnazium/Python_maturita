@@ -38,6 +38,7 @@ class Editor:
 
         # Objects
         self.canvas_objects = pygame.sprite.Group()
+        self.object_drag_active = False
 
         # Player
         CanvasObject(
@@ -111,6 +112,7 @@ class Editor:
             self.pan_input(event)
             self.selection_hotkeys(event)
             self.menu_click(event)
+            self.object_drag(event)
             self.canvas_add()
 
             # Check for right mouse button click to delete tile
@@ -160,12 +162,25 @@ class Editor:
             del self.canvas_data[current_cell]
         self.check_neighbors(current_cell)
 
+    def object_drag(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and mouse_buttons()[0]:
+            for sprite in self.canvas_objects:
+                if sprite.rect.collidepoint(event.pos):
+                    sprite.start_drag()
+                    self.object_drag_active = True
+
+        if event.type == pygame.MOUSEBUTTONUP and self.object_drag_active:
+            for sprite in self.canvas_objects:
+                if sprite.selected:
+                    sprite.drag_end(self.origin)
+                    self.object_drag_active = False
+
     def menu_click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):
             self.selection_index = self.menu.click(mouse_position(), mouse_buttons())
 
     def canvas_add(self):
-        if mouse_buttons()[0] and not self.menu.rect.collidepoint(mouse_position()):
+        if mouse_buttons()[0] and not self.menu.rect.collidepoint(mouse_position()) and not self.object_drag_active:
             current_cell = self.get_current_cell()
 
             if current_cell != self.last_selected_cell:
@@ -322,6 +337,7 @@ class CanvasTile:
 class CanvasObject(pygame.sprite.Sprite):
     def __init__(self, pos, frames, tile_id, origin, group):
         super().__init__(group)
+        self.tile_id = tile_id
 
         # Animation
         self.frames = frames
@@ -332,14 +348,30 @@ class CanvasObject(pygame.sprite.Sprite):
 
         # Movement
         self.distance_to_origin = vector(self.rect.topleft) - origin
+        self.selected = False
+        self.mouse_offset = vector()
+
+    def start_drag(self):
+        self.selected = True
+        self.mouse_offset = vector(mouse_position()) - vector(self.rect.topleft)
+
+    def drag(self):
+        if self.selected:
+            self.rect.topleft = mouse_position() - self.mouse_offset
+
+    def drag_end(self, origin):
+        self.selected = False
+        self.distance_to_origin = vector(self.rect.topleft) - origin
 
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
         self.frame_index = 0 if self.frame_index >= len(self.frames) else self.frame_index
         self.image = self.frames[int(self.frame_index)]
+        self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
 
     def pan_pos(self, origin):
         self.rect.topleft = origin + self.distance_to_origin
 
     def update(self, dt):
         self.animate(dt)
+        self.drag()

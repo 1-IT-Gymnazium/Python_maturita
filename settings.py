@@ -1,12 +1,12 @@
 TILE_SIZE = 64
 WINDOW_WIDTH = 1300
 WINDOW_HEIGHT = 800
-ANIMATION_SPEED = 5
+ANIMATION_SPEED = 9
 FPS = 60
 
 EDITOR_DATA = {
     0: {"style": "player", "type": "object", "menu": None, "menu_surf": None, "preview": None,
-        "graphics": r"tiles_png\player"},
+        "graphics": r"tiles_png\player\Idle_right"},
     1: {"style": "sky", "type": "object", "menu": None, "menu_surf": None, "preview": None, "graphics": None},
 
     2: {"style": "terrain", "type": "tile", "menu": "terrain",
@@ -41,7 +41,7 @@ EDITOR_DATA = {
         'preview': r"tiles_png\canon_right\CANON_RIGHT.png",
         'graphics': r"tiles_png\canon_right"},
 
-    10: {'style': 'palm_fg', 'type': 'object', 'menu': 'palm_fg',
+    10: {'style': 'palm_fg', 'type': 'object', 'menu': 'objects',
          'menu_surf': r"tiles_png\large_fg\large_1.png",
          'preview': r"tiles_png\large_fg\large_1.png",
          'graphics': r"tiles_png\large_fg\animations"},
