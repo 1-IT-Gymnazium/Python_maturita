@@ -3,7 +3,8 @@ from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from editor import Editor
 from pygame.image import load
 from support import import_folder_dict
-
+from level import Level
+from pygame.math import Vector2 as vector
 
 class Main:
     def __init__(self):
@@ -12,7 +13,9 @@ class Main:
         self.clock = pygame.time.Clock()
         self.import_assets()
 
-        self.editor = Editor(self.land_tiles)
+        self.editor_active = True
+        self.transition = Transition(self.toggle)
+        self.editor = Editor(self.land_tiles, self.switch)
 
         # Cursor
         cursor_surf = load(
@@ -25,13 +28,50 @@ class Main:
             r"tiles_png\land"
         )
 
+    def toggle(self):
+        self.editor_active = not self.editor_active
+
+    def switch(self, grid = None):
+        self.transition.active = True
+        if grid:
+            self.level = Level(grid, self.switch, {
+                'land': self.land_tiles
+            })
+
     def run(self):
         while True:
             dt = self.clock.tick() / 1000
 
-            self.editor.run(dt)
+            if self.editor_active:
+                self.editor.run(dt)
+            else:
+                self.level.run(dt)
+            self.transition.display(dt)
             pygame.display.update()
 
+class Transition:
+    def __init__(self, toggle):
+        self.display_surface = pygame.display.get_surface()
+        self.toggle = toggle
+        self.active = False
+
+        self.border_width = 0
+        self.direction = 1
+        self.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        self.radius = vector(self.center).magnitude()
+        self.treshold = self.radius + 100
+
+    def display(self, dt):
+        if self.active == True:
+            self.border_width += 1000 * dt * self.direction
+            if self.border_width >= self.treshold:
+                self.direction = -1
+                self.toggle()
+            if self.border_width < 0:
+                self.active = False
+                self.border_width = 0
+                self.direction = 1
+            pygame.draw.circle(self.display_surface, 'black', self.center, self.radius, int(self.border_width))
 
 if __name__ == "__main__":
     main = Main()

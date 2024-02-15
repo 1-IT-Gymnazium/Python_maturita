@@ -1,11 +1,12 @@
 TILE_SIZE = 64
 WINDOW_WIDTH = 1300
 WINDOW_HEIGHT = 800
-ANIMATION_SPEED = 5
+ANIMATION_SPEED = 9
 FPS = 60
 
 EDITOR_DATA = {
-    0: {"style": "player", "type": "object", "menu": None, "menu_surf": None, "preview": None, "graphics": None},
+    0: {"style": "player", "type": "object", "menu": None, "menu_surf": None, "preview": None,
+        "graphics": r"tiles_png\player\Idle_right"},
     1: {"style": "sky", "type": "object", "menu": None, "menu_surf": None, "preview": None, "graphics": None},
 
     2: {"style": "terrain", "type": "tile", "menu": "terrain",
